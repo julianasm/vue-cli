@@ -10,8 +10,9 @@
         text
         rounded
         class="my-2"
+        :to="link.path"
       >
-        {{ link }}
+        {{ link.label }}
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -33,8 +34,9 @@
         text
         rounded
         class="my-2"
+        :to="link.path"
       >
-        {{ link }}
+        {{ link.label }}
       </v-btn>
       <v-col
         class="primary lighten-2 py-6 text-center white--text"
@@ -57,9 +59,18 @@ export default {
 
   data: () => ({
       links: [
-          'Home',
-          'Login',
-          'Cadastro'
+            {
+              label: 'Home',
+              path: '/',
+            },
+            {
+              label: 'Login',
+              path: 'login'
+            },
+            {
+              label: 'about',
+              path: '/about'
+          },
         ],
     }),
 

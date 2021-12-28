@@ -19,7 +19,7 @@
         </v-form>
       </v-card-text>
     <v-card-actions>
-      <v-btn color="success">
+      <v-btn color="success" to="/register">
         Register
       </v-btn>
       <v-spacer></v-spacer>
