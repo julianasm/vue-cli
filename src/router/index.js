@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login'
 import Register from '../views/Register'
+import VueMask from 'v-mask'
+Vue.use(VueMask);
 
 Vue.use(VueRouter)
 

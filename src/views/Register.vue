@@ -22,10 +22,10 @@
 
     <v-row>
         <v-col cols="4">
-            <v-text-field label="CEP" v-model="cep" @blur="getCEP" :rules="cepRules"></v-text-field>
+            <v-text-field label="CEP" v-model="cep" @blur="getCEP" :rules="cepRules" v-mask="'#####-###'"></v-text-field>
         </v-col>
         <v-col cols="4">
-            <v-text-field label="Cidade" v-model="cidade"></v-text-field>
+            <v-text-field label="Cidade" v-model="cidade"></v-text-field>   
         </v-col>
         <v-col cols="4">
             <v-text-field label="Estado" v-model="estado"></v-text-field>
@@ -75,6 +75,7 @@
 </template>
 
 <script>
+
   export default {
     data: () => ({
       cep: "",
@@ -82,7 +83,7 @@
       estado: "",
       cepRules: [
           v => !!v || 'CEP é obrigatório',
-          v => (v && v.lentgh <= 8 ) || "CEP precisa ter 8 caracteres"
+          v => (v && v.lentgh < 8 ) || "CEP precisa ter 8 caracteres"
       ],
       valid: true,
       name: '',
@@ -117,9 +118,10 @@
       },
 
       async getCEP() {
-        if (this.cep.lenght == 8) {
+        const cepFormatado = this.cep.replace("-","")
+        if (cepFormatado.length === 8) {
           try {
-            const response = await fetch(`http://viacep.com.br/ws/${this.cep}/json/`);
+            const response = await fetch(`http://viacep.com.br/ws/${cepFormatado}/json/`);
 
             const json = await response.json();
             console.log(json)
