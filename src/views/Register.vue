@@ -1,4 +1,5 @@
 <template>
+<v-container>
   <v-form
     ref="form"
     v-model="valid"
@@ -18,6 +19,18 @@
       label="E-mail"
       required
     ></v-text-field>
+
+    <v-row>
+        <v-col cols="4">
+            <v-text-field label="CEP" v-model="cep" @blur="getCEP" :rules="cepRules"></v-text-field>
+        </v-col>
+        <v-col cols="4">
+            <v-text-field label="Cidade" v-model="cidade"></v-text-field>
+        </v-col>
+        <v-col cols="4">
+            <v-text-field label="Estado" v-model="estado"></v-text-field>
+        </v-col>
+    </v-row>
 
     <v-select
       v-model="select"
@@ -58,11 +71,19 @@
       Reset Validation
     </v-btn>
   </v-form>
+</v-container>
 </template>
 
 <script>
   export default {
     data: () => ({
+      cep: "",
+      cidade: "",
+      estado: "",
+      cepRules: [
+          v => !!v || 'CEP é obrigatório',
+          v => (v && v.lentgh <= 8 ) || "CEP precisa ter 8 caracteres"
+      ],
       valid: true,
       name: '',
       nameRules: [
@@ -82,7 +103,7 @@
         'Item 4',
       ],
       checkbox: false,
-    }),
+    }), 
 
     methods: {
       validate () {
@@ -94,6 +115,23 @@
       resetValidation () {
         this.$refs.form.resetValidation()
       },
+
+      async getCEP() {
+        if (this.cep.lenght == 8) {
+          try {
+            const response = await fetch(`http://viacep.com.br/ws/${this.cep}/json/`);
+
+            const json = await response.json();
+            console.log(json)
+            this.cidade = json.localidade
+            this.estado = json.uf
+          } catch (error) {
+              console.log("CEP inválido", error)
+          }
+        } else {
+            console.log('CEP inválido')
+        }
+      }
     },
   }
 </script>
